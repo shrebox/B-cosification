@@ -1,4 +1,4 @@
-<h1 align="center">Discover-then-Name: Task-Agnostic Concept Bottlenecks via Automated Concept Discovery</h1>
+<h1 align="center">B-cosification: Transforming Deep Neural Networks to be Inherently Interpretable</h1>
 
 <div align="center">
 <a href="https://www.linkedin.com/in/shrebox/">Shreyash Arya*</a>,
