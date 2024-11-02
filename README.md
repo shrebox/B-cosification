@@ -11,7 +11,7 @@ Neural Information Processing Systems (NeurIPS) 2024
 </div>
 </h3>
   
-<h3 align="center">
+<!-- <h3 align="center">
 <a href="">Paper</a>
 |
 <a href="https://github.com/shrebox/B-cosification/">Code</a>
@@ -21,28 +21,7 @@ Neural Information Processing Systems (NeurIPS) 2024
 <a href="">Video</a>
 |
 <a href="">Slides</a>
-</h3>
+</h3> -->
 </p>
 
-## Setup
-
-### Prerequisites
-
-All the dependencies and packages can be installed using pip. The code was tested using Python 3.10.
-
-### Installing the Packages
-
-## Usage
-
-## Acknowledgements
-
-This repository uses code from the following repositories:
-
-* [openai/CLIP](https://github.com/openai/CLIP)
-
-## Citation
-
-Please cite as follows:
-
-```tex
-```
+Code coming soon.
