@@ -11,17 +11,17 @@ Neural Information Processing Systems (NeurIPS) 2024
 </div>
 </h3>
   
-<!-- <h3 align="center">
-<a href="">Paper</a>
-|
-<a href="https://github.com/shrebox/B-cosification/">Code</a>
-|
+<h3 align="center">
+<a href="https://arxiv.org/abs/2411.00715">Paper</a>
+<!-- |
+<a href="https://github.com/shrebox/B-cosification/">Code</a> -->
+<!-- |
 <a href="">Poster</a>
 |
 <a href="">Video</a>
 |
-<a href="">Slides</a>
-</h3> -->
+<a href="">Slides</a> -->
+</h3>
 </p>
 
 Code coming soon.
