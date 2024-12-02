@@ -13,6 +13,10 @@ Neural Information Processing Systems (NeurIPS) 2024
   
 <h3 align="center">
 <a href="https://arxiv.org/abs/2411.00715">Paper</a>
+  |
+<a href="https://nips.cc/media/neurips-2024/Slides/95051.pdf">Slides</a>
+  |
+<a href="https://youtu.be/zSEv3KBGlJQ">Video (neptune.ai)</a>
 <!-- |
 <a href="https://github.com/shrebox/B-cosification/">Code</a> -->
 <!-- |
