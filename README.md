@@ -16,7 +16,7 @@ Neural Information Processing Systems (NeurIPS) 2024
   |
 <a href="https://nips.cc/media/neurips-2024/Slides/95051.pdf">Slides</a>
   |
-Video (<a href="https://youtu.be/yvRXuysa5GI">5-mins</a>,<a href="https://youtu.be/zSEv3KBGlJQ"> neptune.ai</a>)
+Video (<a href="https://youtu.be/yvRXuysa5GI">5-mins</a>,<a href="https://youtu.be/zSEv3KBGlJQ"> neptune.ai</a>,<a href="https://youtu.be/ETfYZrSBzVQ"> Cohere</a>)
 <!-- |
 <a href="https://github.com/shrebox/B-cosification/">Code</a> -->
 <!-- |
