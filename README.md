@@ -14,6 +14,8 @@ Neural Information Processing Systems (NeurIPS) 2024
 <h3 align="center">
 <a href="https://arxiv.org/abs/2411.00715">Paper</a>
   |
+<a href="https://neurips.cc/media/PosterPDFs/NeurIPS%202024/95051.png?t=1733720266.7038476">Poster</a>
+  |
 <a href="https://nips.cc/media/neurips-2024/Slides/95051.pdf">Slides</a>
   |
 Video (<a href="https://youtu.be/yvRXuysa5GI">5-mins</a>,<a href="https://youtu.be/zSEv3KBGlJQ"> neptune.ai</a>,<a href="https://youtu.be/ETfYZrSBzVQ"> Cohere</a>)
