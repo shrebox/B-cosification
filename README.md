@@ -118,7 +118,7 @@ P.S. For more detailed training instructions, please also have a look at [TRAINI
 
 ### Checkpoints
 
-The checkpoints for the B-cosified ImageNet pre-trained models are available [here](https://github.com/shrebox/B-cosification/releases/tag/v0.0.1). 
+The checkpoints for the B-cosified ImageNet pre-trained models are available [here](https://github.com/shrebox/B-cosification/releases/tag/v0.0.1-checkpoints). 
 
 * The checkpoints should be renamed to `last.ckpt`.
 * The checkpoints should be placed under the path: `./experiments/{dataset}/{base_network}/{experiment_name}/{model_name}/last.ckpt`. 
