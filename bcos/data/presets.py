@@ -1,7 +1,7 @@
 import torch
 from torchvision.transforms import autoaugment, transforms
 from torchvision.transforms.functional import InterpolationMode
-from torchvision.transforms import Compose, Resize, CenterCrop, ToTensor, Normalize
+
 import bcos.data.transforms as custom_transforms
 
 IMAGENET_MEAN = (0.485, 0.456, 0.406)
@@ -10,61 +10,17 @@ IMAGENET_STD = (0.229, 0.224, 0.225)
 CLIP_MEAN = (0.48145466, 0.4578275, 0.40821073)
 CLIP_STD = (0.26862954, 0.26130258, 0.27577711)
 
-def _convert_image_to_rgb(image):
-    return image.convert("RGB")
-
-# Similar to ImageNet, transforms class for the CLIP transforms
-class CLIPImageNetClassificationPreset:
-    def __init__(
-            self,
-            *,
-            crop_size=224,
-            resize_size=224,
-            mean=CLIP_MEAN,
-            std=CLIP_STD,
-            interpolation=InterpolationMode.BICUBIC,
-            ):
-        self.args = get_args_dict(ignore=["mean", "std"])
-        trans = [
-            Resize(resize_size, interpolation=interpolation),
-            CenterCrop(crop_size),
-            _convert_image_to_rgb,
-            ToTensor(),]
-        self.transforms = transforms.Compose(trans)
-
-    def __call__(self, img):
-        return self.transforms(img)
-    
-    def __repr__(self):
-        return f"{self.__class__.__name__}({repr(self.transforms.transforms)})"
-    
-    def __rich_repr__(self):
-        yield "transforms", self.transforms.transforms
-
-    def __to_config__(self):
-        """See bcos.experiments.utils.sanitize_config for details."""
-        result = dict(
-            transform=repr(self),
-            **self.args,
-        )
-        result["interpolation"] = str(result["interpolation"])
-        return result
-
 class CLIPBcosImageNetClassificationPresetTrain:
     def __init__(
         self,
         *,
         crop_size,
-        mean=CLIP_MEAN,
-        std=CLIP_STD,
         interpolation=InterpolationMode.BILINEAR,
         hflip_prob=0.5,
         auto_augment_policy=None,
         ra_magnitude=9,
         augmix_severity=3,
         random_erase_prob=0.0,
-        # is_bcos=False,
-        # normalise_function=transforms.Normalize
     ):
         self.args = get_args_dict(ignore=["mean", "std"])
         trans = [transforms.RandomResizedCrop(crop_size, interpolation=interpolation)]
@@ -100,14 +56,8 @@ class CLIPBcosImageNetClassificationPresetTrain:
                 transforms.ConvertImageDtype(torch.float),
             ]
         )
-        # if not is_bcos:
-        #     trans.append(normalise_function(mean=mean, std=std))
         if random_erase_prob > 0:
             trans.append(transforms.RandomErasing(p=random_erase_prob))
-
-        # if is_bcos:
-        #     trans.append(custom_transforms.AddInverse())
-
         self.transforms = transforms.Compose(trans)
 
     def __call__(self, img):
@@ -136,11 +86,7 @@ class CLIPBcosImageNetClassificationPresetEval:
         *,
         crop_size,
         resize_size=256,
-        mean=CLIP_MEAN,
-        std=CLIP_STD,
         interpolation=InterpolationMode.BILINEAR,
-        # is_bcos=False,
-        # normalise_function=transforms.Normalize
     ):
         self.args = get_args_dict(ignore=["mean", "std"])
         trans = [
@@ -148,9 +94,6 @@ class CLIPBcosImageNetClassificationPresetEval:
             transforms.CenterCrop(crop_size),
             transforms.PILToTensor(),
             transforms.ConvertImageDtype(torch.float),
-            # custom_transforms.AddInverse()
-            # if is_bcos
-            # else normalise_function(mean=mean, std=std),
         ]
 
         self.transforms = transforms.Compose(trans)

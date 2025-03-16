@@ -45,10 +45,16 @@ pip install -r requirements.txt
 You can either set the paths in [`bcos/settings.py`](bcos/settings.py) or set the environment variables
 1. `DATA_ROOT`
 2. `IMAGENET_PATH`
+3. `CC3M_PATH`
+4. `IMAGENET_RN50_ZEROSHOT_WEIGHTS_PATH` (for zeroshot evaluation of CLIP models)
 
 to the paths of the data directories.
 
-For ImageNet, the `IMAGENET_PATH` environment variable should point to the directory containing the `train` and `val` directories.
+* For ImageNet, the `IMAGENET_PATH` environment variable should point to the directory containing the `train` and `val` directories.
+
+* For CC3M, the `CC3M_PATH` environment variable should point to the directory containing the `training` and `validation` directories with `*.tar`, `*_stats.json`, and `*.parquet` files. For more instructions, please check [here](https://github.com/rom1504/img2dataset/blob/main/dataset_examples/cc3m.md).
+
+* For zeroshot evaluation of CLIP models during training, the `IMAGENET_RN50_ZEROSHOT_WEIGHTS_PATH` environment variable should point to the weights provided in the [release](https://github.com/shrebox/B-cosification/releases/tag/v0.0.2-CLIP-checkpoints).
 
 
 <!-- =============================================================================================================== -->
@@ -91,11 +97,13 @@ python evaluate.py \
 --experiment_name resnet_18 \
 --reload last
 ```
-* `base_network`: `bcosification` for CNNs and `vit_bcosification` for ViTs.
+* `base_network`: `bcosification` for CNNs, or `vit_bcosification` for ViTs.
 * `experiment_name`: Check the list of experiments below.
 * To evaluate the pre-trained B-cosified ImageNet models, please follow the instructions given below in the "Checkpoints" section.
 
-#### List of experiments:
+Note: For CLIP models, automatic zeroshot evaluation is done at the start of every epoch. For detailed evaluation, please use [CLIP Benchmark](https://github.com/LAION-AI/CLIP_benchmark).
+
+### List of experiments:
 
 * CNNs: `resnet18`, `resnet_50`, `resnet_50_V1`, `densenet_121`
 * ViTs: `bcosifyv2_{model_name}_0.001_lrWarmup_gapReorder`
@@ -112,13 +120,15 @@ python evaluate.py \
 
 Note: Only b and l models use lrWarmup in the final models.
 ```
-* CLIP: Updating...
+* CLIP: `resnet_50_clip_b2_noBias_randomResizedCrop_sigLip_{dataset}_bcosification`; where `{dataset}` is either `ImageNet` or `CC3M`.
+Note: the `base_network` for CLIP models is `clip_bcosification`.
+
 
 P.S. For more detailed training instructions, please also have a look at [TRAINING.md](https://github.com/B-cos/B-cos-v2/blob/main/TRAINING.md) from original B-cos-v2 repository.
 
 ### Checkpoints
 
-The checkpoints for the B-cosified ImageNet pre-trained models are available [here](https://github.com/shrebox/B-cosification/releases/tag/v0.0.1-checkpoints). 
+The checkpoints for the B-cosified ImageNet CNN and ViT pre-trained models are available [here](https://github.com/shrebox/B-cosification/releases/tag/v0.0.1-checkpoints). For B-cosified CLIP pre-trained models, please check [here](https://github.com/shrebox/B-cosification/releases/tag/v0.0.2-CLIP-checkpoints).
 
 * The checkpoints should be renamed to `last.ckpt`.
 * The checkpoints should be placed under the path: `./experiments/{dataset}/{base_network}/{experiment_name}/{model_name}/last.ckpt`. 
@@ -130,6 +140,7 @@ This repository uses code from the following repositories:
 * [B-cos/B-cos-v2](https://github.com/B-cos/B-cos-v2)
 * [openai/CLIP](https://github.com/openai/CLIP)
 * [mlfoundations/open_clip](https://github.com/mlfoundations/open_clip)
+* [LAION-AI/CLIP_benchmark](https://github.com/LAION-AI/CLIP_benchmark)
 
 ## License
 This repository's code is licensed under the Apache 2.0 license which you can find in the [LICENSE](./LICENSE) file.

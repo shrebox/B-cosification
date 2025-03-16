@@ -29,7 +29,7 @@ from torchvision.datasets import ImageFolder
 import bcos.data.transforms as custom_transforms
 import bcos.training.callbacks as custom_callbacks
 from bcos.experiments.utils import Experiment, sanitize_config
-from bcos.settings import DATA_ROOT, IMAGENET_PATH
+from bcos.settings import DATA_ROOT, IMAGENET_PATH, IMAGENET_RN50_ZEROSHOT_WEIGHTS_PATH
 from bcos.training.agc import adaptive_clip_grad_
 from bcos.training.ema import ExponentialMovingAverage
 from bcos.training.hooks import Hook, forward_hook_fn
@@ -45,11 +45,7 @@ import clip
 val_data_folder = IMAGENET_PATH+'/val'
 
 def get_imagenet_zeroshot_weights(model_name):
-    if model_name == 'ViT-B/32':
-        return torch.load('imagenet_vitb32_zeroshot_weights_float32.pt')
-    elif model_name == 'ViT-B/16':
-        return torch.load('imagenet_vitb16_zeroshot_weights_float32.pt')
-    return torch.load('imagenet_rn50_zeroshot_weights_float32.pt')
+    return torch.load(IMAGENET_RN50_ZEROSHOT_WEIGHTS_PATH)
 
 def create_test_loader(transform, val_data_folder=val_data_folder):
 
@@ -373,7 +369,7 @@ def calculate_metrics(param):
 class ClassificationLitModel(pl.LightningModule):
     def __init__(self, dataset, base_network, experiment_name, auto_optimization=True):
         super().__init__()
-        
+
         self.automatic_optimization=auto_optimization
 
         self.experiment = Experiment(dataset, base_network, experiment_name)
@@ -948,7 +944,6 @@ def setup_loggers(args):
             save_dir=str(save_dir),
             project=args.wandb_project,
             id=args.wandb_id,
-            entity='sarya_mpiinf',
         )
         loggers.append(wandb_logger)
 

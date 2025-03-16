@@ -8,6 +8,7 @@ DATA_ROOT = os.getenv("DATA_ROOT")
 
 # ImageNet path
 IMAGENET_PATH = os.getenv("IMAGENET_PATH")
+IMAGENET_RN50_ZEROSHOT_WEIGHTS_PATH = os.getenv("IMAGENET_RN50_ZEROSHOT_WEIGHTS_PATH")
 
 # VOC path
 VOC_PATH = os.getenv("VOC_PATH")

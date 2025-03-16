@@ -4,7 +4,7 @@ import warnings
 import torch
 import torch.nn as nn
 import torchvision.transforms as transforms
-from clip.model import AttentionPool2d
+from CLIP.clip.model import AttentionPool2d
 
 from bcos.common import BcosUtilMixin
 from bcos.modules import BcosAttentionPool2d, BcosSequential, LogitLayer
