@@ -13,6 +13,7 @@
     
   <h3>
     <a href="https://arxiv.org/abs/2411.00715">Paper</a> |
+    <a href="https://openreview.net/forum?id=TA5zPfH8iI">OpenReview</a> |
     <a href="https://github.com/shrebox/B-cosification/">Code</a> |
     <a href="https://neurips.cc/media/PosterPDFs/NeurIPS%202024/95051.png?t=1733720266.7038476">Poster</a> |
     <a href="https://nips.cc/media/neurips-2024/Slides/95051.pdf">Slides</a> |
@@ -23,6 +24,7 @@
   
 </div>
 
+![teaser_bcosification](https://github.com/user-attachments/assets/b557591e-1625-4002-becb-cc177e9d2ef8)
 
 ## Installation
 
@@ -67,41 +69,55 @@ For evaluating or training the models, you can use the `evaluate.py` and `train.
 
 For single-GPU training:
 ```bash
-python train.py \ 
---dataset ImageNet \
---base_network bcosification \
---experiment_name resnet_18 
+python train.py \
+    --dataset ImageNet \
+    --base_network bcosification \
+    --experiment_name resnet_18 
 ```
 
 For distributed training:
 ```bash
-python run_with_submitit.py \ 
---dataset ImageNet \
---base_network vit_bcosification \
---experiment_name bcosifyv2_bcos_simple_vit_ti_patch16_224_0.001_gapReorder-seed=5 \
---distributed \
---gpus 4 \
---node 1 \
---timeout 8 \
---wandb_logger \
---wandb_project bcosification \
---explanation_logging
+python run_with_submitit.py \
+    --dataset ImageNet \
+    --base_network vit_bcosification \
+    --experiment_name bcosifyv2_bcos_simple_vit_ti_patch16_224_0.001_gapReorder-seed=5 \
+    --distributed \
+    --gpus 4 \
+    --node 1 \
+    --timeout 8 \
+    --wandb_logger \
+    --wandb_project bcosification \
+    --explanation_logging
 ```
 
 ### Evaluation
-You can use evaluate the accuracy of the models on the ImageNet validation set using:
+You can use evaluate the <ins>accuracy</ins> of the models on the ImageNet validation set using:
 ```bash
 python evaluate.py \
---dataset ImageNet \
---base_network bcosification \
---experiment_name resnet_18 \
---reload last
+    --dataset ImageNet \
+    --base_network bcosification \
+    --experiment_name resnet_18 \
+    --reload last
 ```
 * `base_network`: `bcosification` for CNNs, or `vit_bcosification` for ViTs.
 * `experiment_name`: Check the list of experiments below.
 * To evaluate the pre-trained B-cosified ImageNet models, please follow the instructions given below in the "Checkpoints" section.
 
-Note: For CLIP models, automatic zeroshot evaluation is done at the start of every epoch. For detailed evaluation, please use [CLIP Benchmark](https://github.com/LAION-AI/CLIP_benchmark).
+For <ins>localisation analysis</ins> of a trained model, [localisation.py](https://github.com/shrebox/B-cosification/blob/main/interpretability/analyses/localisation.py) can be used as follows:
+
+```bash
+python -m interpretability.analyses.localisation \
+    --reload last \
+    --analysis_config 500_3x3 \
+    --explainer_name Ours \
+    --smooth 15 \
+    --batch_size 64 \
+    --save_path "experiments/ImageNet/bcosification/resnet_18/"
+```
+* For ViTs, `--analysis_config 500_2x2-stride=112` and `--striding 112` are required.
+* The results along with localisation plots are stored in the `localisation_analysis` directory automatically created in the experiments directory (`--save_path`).
+
+Note: For <ins>CLIP</ins> models, automatic <ins>zeroshot evaluation</ins> is done at the start of every epoch. For detailed evaluation, please use [CLIP Benchmark](https://github.com/LAION-AI/CLIP_benchmark).
 
 ### List of experiments:
 
@@ -120,8 +136,7 @@ Note: For CLIP models, automatic zeroshot evaluation is done at the start of eve
 
 Note: Only b and l models use lrWarmup in the final models.
 ```
-* CLIP: `resnet_50_clip_b2_noBias_randomResizedCrop_sigLip_{dataset}_bcosification`; where `{dataset}` is either `ImageNet` or `CC3M`.
-Note: the `base_network` for CLIP models is `clip_bcosification`.
+* CLIP: `resnet_50_clip_b2_noBias_randomResizedCrop_sigLip_{dataset}_bcosification`; where `{dataset}` is either `ImageNet` or `CC3M`. Also, the `base_network` for CLIP models is `clip_bcosification`.
 
 
 P.S. For more detailed training instructions, please also have a look at [TRAINING.md](https://github.com/B-cos/B-cos-v2/blob/main/TRAINING.md) from original B-cos-v2 repository.
