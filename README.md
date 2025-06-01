@@ -126,7 +126,7 @@ python CLIP_benchmark/clip_benchmark/cli.py eval \
     --dataset_root=https://huggingface.co/datasets/clip-benchmark/wds_{dataset_cleaned}/tree/main \
     --model=resnet_50_clip_b2_noBias_randomResizedCrop_sigLip_ImageNet_bcosification \
     --pretrained=experiments/ImageNet/clip_bcosification/ \
-    --batch_size=64 \
+    --batch_size=512 \
     --fewshot_lr 0.1 \
     --fewshot_epochs 20 \
     --train_split train \
