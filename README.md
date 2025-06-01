@@ -100,8 +100,46 @@ python evaluate.py \
     --reload last
 ```
 * `base_network`: `bcosification` for CNNs, or `vit_bcosification` for ViTs.
-* `experiment_name`: Check the list of experiments below.
-* To evaluate the pre-trained B-cosified ImageNet models, please follow the instructions given below in the "Checkpoints" section.
+* `experiment_name`: check the [List of experiments](https://github.com/shrebox/B-cosification/tree/main?tab=readme-ov-file#list-of-experiments) section below.
+* To evaluate the pre-trained B-cosified ImageNet models, please follow the instructions given below in the [Checkpoints](https://github.com/shrebox/B-cosification/tree/main?tab=readme-ov-file#checkpoints) section.
+
+For evaluating <ins>B-cosified CLIP</ins> models, use [CLIP Benchmark](https://github.com/shrebox/B-cosification/blob/main/CLIP_benchmark) as follows:
+
+Zeroshot:
+```bash
+ python CLIP_benchmark/clip_benchmark/cli.py eval \
+    --dataset=wds/imagenet1k \
+    --model_type=bcos_clip \
+    --output=benchmark_{dataset}_{model}_{task}.json \
+    --dataset_root=https://huggingface.co/datasets/clip-benchmark/wds_{dataset_cleaned}/tree/main \
+    --model=resnet_50_clip_b2_noBias_randomResizedCrop_sigLip_ImageNet_bcosification \
+    --pretrained=experiments/ImageNet/clip_bcosification
+```
+
+Linear Probe:
+```bash
+python CLIP_benchmark/clip_benchmark/cli.py eval \
+    --task=linear_probe \
+    --dataset=wds/imagenet1k \
+    --model_type=bcos_clip \
+    --output=benchmark_{dataset}_{model}_{task}.json \
+    --dataset_root=https://huggingface.co/datasets/clip-benchmark/wds_{dataset_cleaned}/tree/main \
+    --model=resnet_50_clip_b2_noBias_randomResizedCrop_sigLip_ImageNet_bcosification \
+    --pretrained=experiments/ImageNet/clip_bcosification/ \
+    --batch_size=64 \
+    --fewshot_lr 0.1 \
+    --fewshot_epochs 20 \
+    --train_split train \
+    --test_split test
+```
+
+* `--dataset`: use `wds/{dataset}` for available [Zeroshot](https://github.com/shrebox/B-cosification/blob/main/CLIP_benchmark/benchmark/datasets.txt) and [Linear Probe](https://github.com/shrebox/B-cosification/blob/main/CLIP_benchmark/benchmark/lp_webdatasets.txt) datasets.
+* `--model_type`: `bcos_clip`, `bcos_clip_cc3m`, `text2concept_clip`, `standard_clip`.
+* `--model`: for model types `bcos_clip` and `bcos_clip_cc3m`, check the [List of experiments](https://github.com/shrebox/B-cosification/tree/main?tab=readme-ov-file#list-of-experiments) section for model names; for `standard_clip` use `RN50`; for `text2concept_clip` not required.
+
+<ins>Note</ins>: For CLIP models, automatic <ins>zeroshot evaluation</ins> is done at the start of every epoch.
+
+#### Localisation
 
 For <ins>localisation analysis</ins> of a trained model, [localisation.py](https://github.com/shrebox/B-cosification/blob/main/interpretability/analyses/localisation.py) can be used as follows:
 
@@ -117,7 +155,29 @@ python -m interpretability.analyses.localisation \
 * For ViTs, `--analysis_config 500_2x2-stride=112` and `--striding 112` are required.
 * The results along with localisation plots are stored in the `localisation_analysis` directory automatically created in the experiments directory (`--save_path`).
 
-Note: For <ins>CLIP</ins> models, automatic <ins>zeroshot evaluation</ins> is done at the start of every epoch. For detailed evaluation, please use [CLIP Benchmark](https://github.com/LAION-AI/CLIP_benchmark).
+For <ins>text-localisation using B-cosified CLIP model</ins>, [text_localisation.py](https://github.com/shrebox/B-cosification/blob/main/interpretability/analyses/text_localisation.py) can be used as follows:
+
+on an ImageNet image:
+```bash
+python -m interpretability.analyses.text_localisation \
+    --exp_name experiments/ImageNet/clip_bcosification/resnet_50_clip_b2_noBias_randomResizedCrop_sigLip_ImageNet_bcosification \
+    --image_index 2 \
+    --text_to_localize "green,blue,orange" \
+    --save_path /path/to/save
+```
+
+* `--use_class_name` to localise the class name for a given ImageNet image.
+* `--save_path` is by default set to path provided by `--exp_name` if not set.
+
+
+on a random image:
+```bash
+python -m interpretability.analyses.text_localisation \
+    --exp_name experiments/ImageNet/clip_bcosification/resnet_50_clip_b2_noBias_randomResizedCrop_sigLip_ImageNet_bcosification \
+    --random_img_path /path/to/image \
+    --text_to_localize "green,blue,orange"
+    --save_path /path/to/save 
+```
 
 ### List of experiments:
 
@@ -156,6 +216,7 @@ This repository uses code from the following repositories:
 * [openai/CLIP](https://github.com/openai/CLIP)
 * [mlfoundations/open_clip](https://github.com/mlfoundations/open_clip)
 * [LAION-AI/CLIP_benchmark](https://github.com/LAION-AI/CLIP_benchmark)
+* [k1rezaei/Text-to-concept](https://github.com/k1rezaei/Text-to-concept/tree/main)
 
 ## License
 This repository's code is licensed under the Apache 2.0 license which you can find in the [LICENSE](./LICENSE) file.

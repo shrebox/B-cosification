@@ -1,0 +1,10 @@
+wds/imagenet_sketch
+wds/fer2013
+wds/cars
+wds/mnist
+wds/stl10
+wds/gtsrb
+wds/vtab/diabetic_retinopathy
+wds/vtab/eurosat
+wds/vtab/resisc45
+wds/vtab/svhn

@@ -519,7 +519,7 @@ import json
 
 
 def get_inx2label_imagenet(index: int):
-    with open("./data/imagenet_class_index.json") as f:
+    with open("bcos/data/imagenet_class_index.json") as f:
         class_idx = json.load(f)
     idx2label = [class_idx[str(k)][1] for k in range(len(class_idx))]
     return idx2label[index]
